@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using TaskOne;
 using TaskOne.Models;
 
@@ -14,53 +15,101 @@ public class TasksController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<TaskModel>> Get()
+    [ProducesResponseType(200,Type=typeof(IEnumerable<TaskModel>))]
+    [ProducesResponseType(500, Type = typeof(String))]
+    public async Task<IActionResult> Get()
     {
-        return Ok(_taskService.GetAllTasks());
+        try {
+            var res = await _taskService.GetAllTasks();
+            return Ok(res);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal Server Error: {ex.Message}");
+        }
+
     }
 
     [HttpGet("{id}")]
-    public ActionResult<TaskModel> Get(int id)
+    [ProducesResponseType(200, Type = typeof(TaskModel))]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(500, Type = typeof(String))]
+    public async Task<IActionResult> Get(int id)
     {
-        var task = _taskService.GetTaskByID(id);
-        if (task == null)
-        {
-            return NotFound();
-        }
+        try {
+            var task = await _taskService.GetTaskByID(id);
+            if (task == null)
+            {
+                return NotFound();
+            }
+            return Ok(task);
 
-        return Ok(task);
+        }
+        catch (Exception ex) {
+            return StatusCode(500, $"Internal Server Error: {ex.Message}");
+        }
     }
 
     [HttpPost]
-    public ActionResult<TaskModel> Post([FromBody] TaskModel task)
+    [ProducesResponseType(201,Type=typeof(TaskModel))]
+    [ProducesResponseType(400, Type = typeof(string))]
+    [ProducesResponseType(500, Type = typeof(string))]
+    public IActionResult Post([FromBody] TaskModel task)
     {
-        _taskService.AddTask(task);
-        return CreatedAtAction(nameof(Get), new { id = task.Id }, task);
+        try
+        {
+            _taskService.AddTask(task);
+            return CreatedAtAction(nameof(Get), new { id = task.Id }, task);
+        }
+        catch (Exception ex)
+        {
+            // Log the exception or handle it appropriately
+            return StatusCode(500, $"Internal Server Error: {ex.Message}");
+        }
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] TaskModel updatedTask)
+    [ProducesResponseType(204)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(500, Type = typeof(string))]
+    public async Task<IActionResult> Put(int id, [FromBody] TaskModel updatedTask)
     {
-        var existingTask = _taskService.GetTaskByID(id);
-        if (existingTask == null)
-        {
-            return NotFound();
+        try {
+            var existingTask = await _taskService.GetTaskByID(id);
+            if (existingTask == null)
+            {
+                return NotFound();
+            }
+
+            _taskService.UpdateTask(updatedTask);
+            return NoContent();
+        }
+        catch (Exception ex) {
+            return StatusCode(500, $"Internal Server Error: {ex.Message}");
         }
 
-        _taskService.UpdateTask(updatedTask);
-        return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    [ProducesResponseType(204)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(500, Type = typeof(string))]
+    public async Task<IActionResult> Delete(int id)
     {
-        var task = _taskService.GetTaskByID(id);
-        if (task == null)
+        try {
+            var task = await _taskService.GetTaskByID(id);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            _taskService.DeleteTask(id);
+            return NoContent();
+        }
+        catch (Exception ex)
         {
-            return NotFound();
+            return StatusCode(500, $"Internal Server Error: {ex.Message}");
         }
 
-        _taskService.DeleteTask(id);
-        return NoContent();
     }
 }

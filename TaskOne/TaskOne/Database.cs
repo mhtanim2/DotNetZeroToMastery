@@ -13,8 +13,9 @@ namespace TaskOne
             return Task.FromResult<IEnumerable<TaskModel>>(_tasks);
         }
 
-        public TaskModel GetTaskByID(int id) {
-            return _tasks.FirstOrDefault(t => t.Id == id);
+        public Task<TaskModel> GetTaskByID(int id) {
+            //passing with async functionalities
+            return Task.FromResult(_tasks.FirstOrDefault(t => t.Id == id));
         }
 
         public void AddTask(TaskModel task)
@@ -22,14 +23,16 @@ namespace TaskOne
             task.Id = _tasks.Count + 1;
             _tasks.Add(task);
         }
-        public void UpdateTask(TaskModel task)
+        public async Task UpdateTask(TaskModel task)
         {
-            var isExist=_tasks.FirstOrDefault(t => t.Id == task.Id);
-            if (isExist != null) {
+            var isExist = _tasks.FirstOrDefault(t => t.Id == task.Id);
+            if (isExist != null)
+            {
                 isExist.Tasks = task.Tasks;
                 isExist.CreatedDateTime = task.CreatedDateTime;
             }
         }
+
         public void DeleteTask(int id)
         {
             var taskToRemove = _tasks.FirstOrDefault(t => t.Id == id);
