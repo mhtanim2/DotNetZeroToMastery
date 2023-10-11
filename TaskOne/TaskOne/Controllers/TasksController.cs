@@ -27,7 +27,6 @@ public class TasksController : ControllerBase
         {
             return StatusCode(500, $"Internal Server Error: {ex.Message}");
         }
-
     }
 
     [HttpGet("{id}")]
@@ -72,10 +71,10 @@ public class TasksController : ControllerBase
     [ProducesResponseType(204)]
     [ProducesResponseType(404)]
     [ProducesResponseType(500, Type = typeof(string))]
-    public async Task<IActionResult> Put(int id, [FromBody] TaskModel updatedTask)
+    public IActionResult Put(int id, [FromBody] TaskModel updatedTask)
     {
         try {
-            var existingTask = await _taskService.GetTaskByID(id);
+            var existingTask = _taskService.GetTaskByID(id);
             if (existingTask == null)
             {
                 return NotFound();
