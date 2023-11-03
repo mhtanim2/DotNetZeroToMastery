@@ -10,7 +10,7 @@ namespace PandaIT.Data
         {
 
         }
-
+            
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<EmployeeDetail> EmployeeDetails { get; set; }
@@ -31,5 +31,6 @@ namespace PandaIT.Data
                 .WithMany(p => p.EmployeeProjects)
                 .HasForeignKey(ep => ep.ProjectId);
         }
+        
     }
 }

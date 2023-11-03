@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using PandaIT.Data;
+using PandaIT.Helper;
 using PandaIT.Interface;
 using PandaIT.Interfaces;
 using PandaIT.Models;
@@ -32,6 +34,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

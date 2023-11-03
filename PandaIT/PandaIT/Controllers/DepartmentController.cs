@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PandaIT.Dto;
+using PandaIT.Helper;
 using PandaIT.Interface;
 using PandaIT.Models;
 using System.Threading.Tasks;
@@ -16,21 +17,26 @@ namespace PandaIT.Controllers
         {
             _departmentRepository = departmentRepository;
         }
-
+        
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Department>))]
+        [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         public IActionResult GetDepartments()
         {
-            try {
+            try
+            {
                 var result = _departmentRepository.GetDepartments();
                 if (result == null)
-                    return NotFound("Task Not founded");
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+                    throw new MyCustomException("No Departments found");
                 return Ok(result);
             }
-            catch (Exception ex) {
+            catch (MyCustomException customException)
+            {
+                return NotFound(customException.Message);
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }
@@ -68,6 +74,7 @@ namespace PandaIT.Controllers
                     return StatusCode(201, "Created Successfullly");
                 else
                     return BadRequest("Bad request");
+                return CreatedAtAction(nameof(GetDepartmentById), new { DepartmentId = departmentDto.DepartmentId }, departmentDto);
             }
             catch (Exception)
             {
