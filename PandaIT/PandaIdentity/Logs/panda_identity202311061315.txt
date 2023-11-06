@@ -1,0 +1,3 @@
+2023-11-06 13:15:41.487 +06:00 [ERR] An error occurred while processing your request...This is a custom exception
+System.Exception: This is a custom exception
+   at PandaIdentity.Controllers.MyTaskController.GetAllTasksAsync() in E:\CSharp\Task\PandaIT\PandaIdentity\Controllers\MyTaskController.cs:line 32

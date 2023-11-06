@@ -12,6 +12,7 @@ namespace PandaIdentity.Data
         public DbSet<MySubTask> MySubTasks { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Priority> Priorities { get; set; }
+        public DbSet<Image> images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

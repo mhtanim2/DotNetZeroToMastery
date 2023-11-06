@@ -15,27 +15,21 @@ namespace PandaIdentity.Controllers
     {
         private readonly IMyTaskRepository _myTaskRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<MyTaskController> _logger;
 
-        public MyTaskController(IMyTaskRepository myTaskRepository,IMapper mapper)
+        public MyTaskController(IMyTaskRepository myTaskRepository,IMapper mapper,ILogger<MyTaskController> logger)
         {
             _myTaskRepository = myTaskRepository;
             _mapper = mapper;
+            _logger = logger;
         }
         [HttpGet]
         [Authorize(Roles ="Reader,Writer")]
         public async Task<IActionResult> GetAllTasksAsync()
         {
-            try
-            {
-                var tasks = await _myTaskRepository.GetAllAsync();
-                var getTaskDTO = _mapper.Map<IEnumerable<MyTaskDto>>(tasks);
-                return Ok(getTaskDTO);
-            }
-            catch (Exception ex)
-            {
-                // Log the exception if needed
-                return StatusCode(500, "An error occurred while processing your request.");
-            }
+            var tasks = await _myTaskRepository.GetAllAsync();
+            var getTaskDTO = _mapper.Map<IEnumerable<MyTaskDto>>(tasks);
+            return Ok(getTaskDTO);
         }
 
         [HttpGet]
@@ -43,22 +37,13 @@ namespace PandaIdentity.Controllers
         [Authorize(Roles = "Reader,Writer")]
         public async Task<IActionResult> GetTaskAsync(Guid id)
         {
-            try
-            {
-                var task = await _myTaskRepository.GetAsync(id);
+            var task = await _myTaskRepository.GetAsync(id);
 
-                if (task == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(_mapper.Map<MyTaskDto>(task));
-            }
-            catch (Exception)
+            if (task == null)
             {
-                // Log the exception if needed
-                return StatusCode(500, "An error occurred while processing your request.");
+                return NotFound();
             }
+            return Ok(_mapper.Map<MyTaskDto>(task));
         }
 
         [HttpPost]
@@ -67,27 +52,19 @@ namespace PandaIdentity.Controllers
         [ProducesResponseType(200, Type = typeof(MyTaskDto))]
         public async Task<IActionResult> AddTaskAsync(MyTaskCreateDto addTaskDto)
         {
-            try
+            MyTask ob = new MyTask
             {
-                // Request(DTO) to Domain model
-                MyTask ob = new MyTask
-                {
-                    Title = addTaskDto.Title,
-                    Description = addTaskDto.Description
-                };
+                Title = addTaskDto.Title,
+                Description = addTaskDto.Description
+            };
 
-                // Pass details to Repository
-                var result = await _myTaskRepository.AddAsync(ob);
+            // Pass details to Repository
+            var result = await _myTaskRepository.AddAsync(ob);
 
-                // Convert back to DTO
-                MyTaskDto swipe = _mapper.Map<MyTaskDto>(result);
-                return Ok(swipe.Title + " Created Successfully");
-            }
-            catch (Exception ex)
-            {
-                // Log the exception if needed
-                return StatusCode(500, "An error occurred while processing your request.");
-            }
+            // Convert back to DTO
+            MyTaskDto swipe = _mapper.Map<MyTaskDto>(result);
+            return Ok(swipe.Title + " Created Successfully");
+            
         }
 
         [HttpDelete]
@@ -95,9 +72,7 @@ namespace PandaIdentity.Controllers
         [Authorize(Roles = "Writer")]
         public async Task<IActionResult> DeleteTaskAsync(Guid id)
         {
-            try
-            {
-                bool res = await _myTaskRepository.IfExist(id);
+            bool res = await _myTaskRepository.IfExist(id);
 
                 // Get region from the database
                 if (res)
@@ -116,12 +91,6 @@ namespace PandaIdentity.Controllers
                 }
 
                 return BadRequest();
-            }
-            catch (Exception ex)
-            {
-                // Log the exception if needed
-                return StatusCode(500, "An error occurred while processing your request.");
-            }
         }
 
         [HttpPut]
@@ -130,9 +99,7 @@ namespace PandaIdentity.Controllers
         public async Task<IActionResult> UpdateTaskAsync([FromRoute] Guid id,
             [FromBody] MyTaskCreateDto updateTaskRequest)
         {
-            try
-            {
-                // Convert DTO to Domain model
+            // Convert DTO to Domain model
                 MyTask ob = new MyTask
                 {
                     Title = updateTaskRequest.Title,
@@ -153,13 +120,8 @@ namespace PandaIdentity.Controllers
                 // Return Ok response
                 return Ok(swipe);
             }
-            catch (Exception ex)
-            {
-                // Log the exception if needed
-                return StatusCode(500, "An error occurred while processing your request.");
-            }
 
         }
 
-    }
 }
+
