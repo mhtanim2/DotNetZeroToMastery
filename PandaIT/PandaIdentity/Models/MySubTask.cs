@@ -22,6 +22,7 @@ namespace PandaIdentity.Models
         public DateTime CreatedDate { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime DueDate { get; set; }
+        
         //Parents Direction
         [JsonIgnore]
         public MyTask MyTask { get; set; }

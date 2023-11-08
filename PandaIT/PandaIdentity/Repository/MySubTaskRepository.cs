@@ -38,11 +38,11 @@ namespace PandaIdentity.Repository
             _context.MySubTasks.Remove(subTask);
             await _context.SaveChangesAsync();
             return subTask;
-        }
-               
+        }   
+
         public async Task<IEnumerable<MySubTask>> GetAllAsync()
         {
-            return await _context.MySubTasks.OrderBy(t => t.CreatedDate).Include(p=>p.Priority).Include(s=>s.Status).ToListAsync();
+            return await _context.MySubTasks.OrderBy(t => t.CreatedDate).Include(p=>p.Priority).Include(s=>s.Status).Include(mT=>mT.MyTask).ToListAsync();
         }
 
         public async Task<MySubTask> GetAsync(Guid id)

@@ -43,10 +43,14 @@ namespace PandaIdentity.Repository
         {
             return await _context.MyTasks.OrderBy(t=>t.CreatedDate).Include(s=>s.MySubTask).ToListAsync();
         }
-
         public async Task<MyTask> GetAsync(Guid id)
         {
-            return await _context.MyTasks.FirstOrDefaultAsync(t=>t.TaskID == id);
+            return await _context.MyTasks
+        .Include(t => t.MySubTask)
+        .ThenInclude(subtask => subtask.Status)
+        .Include(t => t.MySubTask)
+        .ThenInclude(subtask => subtask.Priority)
+        .FirstOrDefaultAsync(t => t.TaskID == id);
         }
 
         public async Task<bool> IfExist(Guid id)
