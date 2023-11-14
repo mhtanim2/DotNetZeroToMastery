@@ -63,8 +63,6 @@ builder.Services.AddSwaggerGen(c =>
     c.AddSecurityRequirement(securityRequirement);
 });
 
-
-
 //AddScoped
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

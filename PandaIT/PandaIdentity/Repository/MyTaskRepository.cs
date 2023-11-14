@@ -62,7 +62,6 @@ namespace PandaIdentity.Repository
         {
 
             var task = await GetAsync(id);
-
             if (task == null)
             {
                 return null;
