@@ -11,5 +11,6 @@ namespace InventoryApiAspCore.Interfaces.ExpenseInterface
         Task<Expense> DeleteAsync(Guid id);
         Task<Expense> UpdateAsync(Guid id, Expense expense);
         Task<bool> IfExist(Guid id);
+        Task<bool> IsExpenseTypeAssociated(Guid expenseTypeId);
     }
 }

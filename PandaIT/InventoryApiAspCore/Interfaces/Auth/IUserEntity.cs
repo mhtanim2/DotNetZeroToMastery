@@ -1,4 +1,6 @@
-﻿namespace InventoryApiAspCore.Interfaces.Auth
+﻿using InventoryApiAspCore.Models.Expenses;
+
+namespace InventoryApiAspCore.Interfaces.Auth
 {
     public interface IUserEntity<T>
     {

@@ -97,3 +97,4 @@ E:\CSharp\Task\PandaIT\InventoryApiAspCore\obj\Debug\net7.0\refint\InventoryApiA
 E:\CSharp\Task\PandaIT\InventoryApiAspCore\obj\Debug\net7.0\InventoryApiAspCore.pdb
 E:\CSharp\Task\PandaIT\InventoryApiAspCore\obj\Debug\net7.0\InventoryApiAspCore.genruntimeconfig.cache
 E:\CSharp\Task\PandaIT\InventoryApiAspCore\obj\Debug\net7.0\ref\InventoryApiAspCore.dll
+E:\CSharp\Task\PandaIT\InventoryApiAspCore\obj\Debug\net7.0\InventoryApiAspCore.sourcelink.json

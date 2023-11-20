@@ -14,7 +14,6 @@ namespace InventoryApiAspCore.Models.Purchases
         public int Qty { get; set; }
         public int UnitCost { get; set; }
         public int Total { get; set; }
-        
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         // Every purchase has to have a supplier 
         public Purchase Purchase { get; set; }

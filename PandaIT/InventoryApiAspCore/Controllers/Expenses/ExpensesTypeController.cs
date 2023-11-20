@@ -4,6 +4,7 @@ using InventoryApiAspCore.Dto.Response;
 using InventoryApiAspCore.Interfaces.ExpenseInterface;
 using InventoryApiAspCore.Models.Customers;
 using InventoryApiAspCore.Models.Expenses;
+using InventoryApiAspCore.Services.ExpenseServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,13 @@ namespace InventoryApiAspCore.Controllers.Expenses
     public class ExpensesTypeController : ControllerBase
     {
         private readonly IExpenseTypeService _expenseTypeService;
+        private readonly IExpenseService _expenseService;
         private readonly IMapper _mapper;
 
-        public ExpensesTypeController(IExpenseTypeService expenseTypeService,IMapper mapper)
+        public ExpensesTypeController(IExpenseTypeService expenseTypeService, IExpenseService expenseService,IMapper mapper)
         {
             _expenseTypeService = expenseTypeService;
+            _expenseService = expenseService;
             _mapper = mapper;
         }
 
@@ -83,25 +86,36 @@ namespace InventoryApiAspCore.Controllers.Expenses
         [Authorize(Roles = "Writer,Reader")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
-            bool res = await _expenseTypeService.IfExist(id);
+            // Check if the ExpenseType exists
+            bool exists = await _expenseTypeService.IfExist(id);
 
-            // Get region from the database
-            if (res)
+            if (exists)
             {
-                var task = await _expenseTypeService.DeleteAsync(id);
+                // Check if the ExpenseType is associated with any Expenses
+                bool isAssociated = await _expenseService.IsExpenseTypeAssociated(id);
 
-                // If null NotFound
-                if (task == null)
+                if (isAssociated)
+                {
+                    // If associated, return a BadRequest or another appropriate response
+                    return BadRequest("ExpenseType is associated with Expenses. Cannot delete.");
+                }
+
+                // If not associated, proceed with deletion
+                var deletedExpenseType = await _expenseTypeService.DeleteAsync(id);
+
+                // If null, NotFound
+                if (deletedExpenseType == null)
                 {
                     return NotFound();
                 }
 
-                // Convert response back to DTO
-                ExpenseTypeDto ob = _mapper.Map<ExpenseTypeDto>(task);
-                return Ok(ob);
+                // Convert the deleted ExpenseType to DTO
+                ExpenseTypeDto deletedExpenseTypeDto = _mapper.Map<ExpenseTypeDto>(deletedExpenseType);
+                return Ok(deletedExpenseTypeDto);
             }
 
-            return BadRequest();
+            // If the ExpenseType does not exist, return BadRequest
+            return BadRequest("ExpenseType not found.");
         }
 
         [HttpPut]

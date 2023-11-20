@@ -6,6 +6,8 @@ using InventoryApiAspCore.Interfaces.CategoryInterface;
 using InventoryApiAspCore.Interfaces.Common;
 using InventoryApiAspCore.Interfaces.CustomerInterface;
 using InventoryApiAspCore.Interfaces.ExpenseInterface;
+using InventoryApiAspCore.Interfaces.ProductInterface;
+using InventoryApiAspCore.Interfaces.PurchaseInterface;
 using InventoryApiAspCore.Interfaces.SupplierInterface;
 using InventoryApiAspCore.Middlewares;
 using InventoryApiAspCore.Services.Auth;
@@ -14,6 +16,8 @@ using InventoryApiAspCore.Services.CategoryServices;
 using InventoryApiAspCore.Services.Common;
 using InventoryApiAspCore.Services.CustomerService;
 using InventoryApiAspCore.Services.ExpenseServices;
+using InventoryApiAspCore.Services.ProductServices;
+using InventoryApiAspCore.Services.PurchaseServices;
 using InventoryApiAspCore.Services.SupplierService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -94,6 +98,7 @@ builder.Services.AddDbContext<InventoryAuthDataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("NewAuthConnection"));
 });
+
 builder.Services.AddScoped(typeof(ICommonService<>), typeof(CommonService<>));
 builder.Services.AddScoped<ITokenService,TokenService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
@@ -102,6 +107,8 @@ builder.Services.AddScoped<ICustomerService,CustomerService>();
 builder.Services.AddScoped<ISupplierService,SupplierService>();
 builder.Services.AddScoped<IExpenseTypeService,ExpenseTypeService>();
 builder.Services.AddScoped<IExpenseService, ExpenseService>();
+builder.Services.AddScoped<IProductService,ProductService>();
+builder.Services.AddScoped<IPurchaseService, PurchaseService>();
 
 // Assuming ICommonService is your interface and CommonService is the implementation
 

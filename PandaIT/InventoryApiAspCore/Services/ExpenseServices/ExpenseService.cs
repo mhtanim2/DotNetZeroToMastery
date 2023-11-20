@@ -41,6 +41,11 @@ namespace InventoryApiAspCore.Services.ExpenseServices
             return await _commonService.IfExist(id);
         }
 
+        public async Task<bool> IsExpenseTypeAssociated(Guid expenseTypeId)
+        {
+            return await _context.Expenses.AnyAsync(expense => expense.ExpenseType.Id == expenseTypeId);
+        }
+
         public async Task<Expense> UpdateAsync(Guid id, Expense expense)
         {// Check if the expense exists
             var existingExpense = await GetAsync(id);
@@ -82,5 +87,6 @@ namespace InventoryApiAspCore.Services.ExpenseServices
 
             return existingExpense;
         }
+
     }
 }
