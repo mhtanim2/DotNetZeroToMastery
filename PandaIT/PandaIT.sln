@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PandaIT", "PandaIT\PandaIT.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PandaIdentity", "PandaIdentity\PandaIdentity.csproj", "{55054F23-D93F-4DDA-9518-EEE093508493}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryApiAspCore", "InventoryApiAspCore\InventoryApiAspCore.csproj", "{674EFA1C-56AC-48A6-9ACD-8F8F1F86AE86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryApiAspCore", "InventoryApiAspCore\InventoryApiAspCore.csproj", "{674EFA1C-56AC-48A6-9ACD-8F8F1F86AE86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E_Commerce", "E_Commerce\E_Commerce.csproj", "{16CE6A5E-DCAA-4BAA-9CC9-15F0B6C05773}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{674EFA1C-56AC-48A6-9ACD-8F8F1F86AE86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{674EFA1C-56AC-48A6-9ACD-8F8F1F86AE86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{674EFA1C-56AC-48A6-9ACD-8F8F1F86AE86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16CE6A5E-DCAA-4BAA-9CC9-15F0B6C05773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16CE6A5E-DCAA-4BAA-9CC9-15F0B6C05773}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16CE6A5E-DCAA-4BAA-9CC9-15F0B6C05773}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16CE6A5E-DCAA-4BAA-9CC9-15F0B6C05773}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

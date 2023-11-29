@@ -81,3 +81,4 @@ E:\CSharp\Task\PandaIT\PandaIT\bin\Debug\net7.0\Microsoft.AspNetCore.JsonPatch.d
 E:\CSharp\Task\PandaIT\PandaIT\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 E:\CSharp\Task\PandaIT\PandaIT\bin\Debug\net7.0\Newtonsoft.Json.dll
 E:\CSharp\Task\PandaIT\PandaIT\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
+E:\CSharp\Task\PandaIT\PandaIT\obj\Debug\net7.0\PandaIT.sourcelink.json
