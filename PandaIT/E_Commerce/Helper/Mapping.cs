@@ -9,8 +9,11 @@ namespace E_Commerce.Helper
     {
         public Mapping()
         {
-            CreateMap<Product,ProductDto>().ReverseMap();
+            CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<Product, ProductRequestDto>().ReverseMap();
+            CreateMap<Basket, BasketRequestDto>().ReverseMap();
+            CreateMap<Basket, BasketDto>().ReverseMap();
+
         }
     }
 }

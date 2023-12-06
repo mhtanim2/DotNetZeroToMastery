@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InventoryApiAspCore")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d701aa9d610ff18cd06e12d02cd1d2259e808659")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0098edce5b55a63c87e5187e74df8a50a6616fd8")]
 [assembly: System.Reflection.AssemblyProductAttribute("InventoryApiAspCore")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InventoryApiAspCore")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

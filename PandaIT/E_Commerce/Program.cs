@@ -10,6 +10,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Text;
+using E_Commerce.Interface.Auth;
+using E_Commerce.Services.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,8 +71,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Scopping with interface
 builder.Services.AddScoped<IProductService,ProductService>();
+builder.Services.AddScoped<IBasketService, BasketService>();
 builder.Services.AddScoped(typeof(ICommonService<>), typeof(CommonService<>));
-
+builder.Services.AddScoped<ITokenService,TokenService>();
 
 // Add Data Context
 //Data Context
@@ -130,7 +133,10 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
-
+app.UseCors(opt =>
+{
+    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
+});
 app.UseAuthentication();
 
 app.UseAuthorization();

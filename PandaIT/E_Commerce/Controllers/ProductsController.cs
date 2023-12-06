@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
+using E_Commerce.Data;
+using E_Commerce.Extenstions;
+using E_Commerce.Helper;
 using E_Commerce.Interface;
 using E_Commerce.Models.Domain;
 using E_Commerce.Models.Dto.Request;
 using E_Commerce.Models.Dto.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Controllers
 {
@@ -16,7 +20,7 @@ namespace E_Commerce.Controllers
         private readonly IMapper _mapper;
 
         public ProductsController(IProductService productService,IMapper mapper)
-        {
+        {;
             _productService = productService;
             _mapper = mapper;
         }
@@ -38,21 +42,28 @@ namespace E_Commerce.Controllers
 
             return Ok(swipe.Name + " Customer Create Successfully");
         }
-
-        [HttpGet]
+        
+        [HttpGet("All")]
         // [Authorize(Roles = "Reader,Writer")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(IEnumerable<ProductDto>))]
         public async Task<IActionResult> GetAllAsync()
         {
-            
             var products = await _productService.GetAllAsync();
             var getBrands = _mapper.Map<IEnumerable<ProductDto>>(products);
             return Ok(getBrands);
         }
-
+        
         [HttpGet]
-        [Route("{id:int}")]
+        // [Authorize(Roles = "Reader,Writer")]
+        public async Task<ActionResult<PagedList<Product>>> GetProducts([FromQuery] ProductParams productParams)
+        {
+            var products = await _productService.GetProductsAsync(productParams);
+            Response.AddPaginationHeader(products.MetaData);
+            return products;
+        }
+
+        [HttpGet("{id}", Name = "GetProduct")]
         // [Authorize(Roles = "Reader,Writer")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(ProductDto))]
@@ -63,6 +74,16 @@ namespace E_Commerce.Controllers
                 return NotFound();
             
             return Ok(_mapper.Map<ProductDto>(ob));
+        }
+        
+        // Getting different types of brand and type
+        [HttpGet("filters")]
+        public async Task<IActionResult> GetFilters()
+        {
+            var brands = await _productService.GetDistinctBrandsAsync();
+            var types = await _productService.GetDistinctTypesAsync();
+
+            return Ok(new { brands, types });
         }
 
         [HttpDelete]
